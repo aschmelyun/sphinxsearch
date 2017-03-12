@@ -1,5 +1,5 @@
 <?php 
-namespace SphinxSearch;
+namespace CuGR\SphinxSearch;
 
 class SphinxSearch
 {

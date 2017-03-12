@@ -7,22 +7,10 @@ This is a fork version of [sngrl/sphinxsearch](https://github.com/sngrl/sphinxse
 Installation
 =======================
 
-Require this package in your composer.json:
- 
-```php
-	"require": {
-        /*** Some others packages ***/
-		"sngrl/sphinxsearch": "dev-master",
-	},
-```
-
-Run in your console `composer update` command to pull down the latest version of Sphinx Search.
-
-
-Or just run this in console:
+Run the following command in your console to pull down the package from packagist.
 
 ```php
-composer require sngrl/sphinxsearch:dev-master
+composer require cugr/sphinxsearch:dev-master
 ```
 
 After updating composer, add the ServiceProvider to the "providers" array in config/app.php:

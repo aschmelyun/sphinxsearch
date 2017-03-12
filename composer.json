@@ -22,7 +22,7 @@
   },
   "autoload": {
     "psr-4": {
-      "SphinxSearch\\" : "src/SphinxSearch"
+      "CuGR\\SphinxSearch\\" : "src/CuGR/SphinxSearch"
     }
   }
 }
