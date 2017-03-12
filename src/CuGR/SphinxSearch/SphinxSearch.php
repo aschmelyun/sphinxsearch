@@ -1,9 +1,15 @@
 <?php 
 namespace CuGR\SphinxSearch;
 
+use Illuminate\Support\Facades\DB;
+
 class SphinxSearch
 {
+    /**
+     * @var new \Sphinx\SphinxClient Instance
+     */
     protected $_connection;
+
     protected $_index_name;
     protected $_search_string;
     protected $_config;
@@ -14,20 +20,26 @@ class SphinxSearch
 
     public function __construct()
     {
-        $host = \Config::get('sphinxsearch.host');
-        $port = \Config::get('sphinxsearch.port');
-        $timeout = \Config::get('sphinxsearch.timeout');
+        $host = config('sphinxsearch.host');
+        $port = config('sphinxsearch.port');
+        $timeout = config('sphinxsearch.timeout');
         $this->_connection = new \Sphinx\SphinxClient();
         $this->_connection->setServer($host, $port);
         $this->_connection->setConnectTimeout($timeout);
         $this->_connection->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_ANY);
         $this->_connection->setSortMode(\Sphinx\SphinxClient::SPH_SORT_RELEVANCE);
-        if (extension_loaded('mysqli') && \Config::get('sphinxsearch.mysql_server')) {
-            $this->_raw_mysql_connection = mysqli_connect(\Config::get('sphinxsearch.mysql_server.host'), '', '', '', \Config::get('sphinxsearch.mysql_server.port'));
+        if (extension_loaded('mysqli') && config('sphinxsearch.connection')) {
+            $database_connection = config('database.connections')[config('sphinxsearch.connection')];
+            $this->_raw_mysql_connection = mysqli_connect(
+                    $database_connection['host'], $database_connection['username'], $database_connection['password'], 
+                    $database_connection['database'], $database_connection['port']
+                );
         }
-        $this->_config = \Config::get('sphinxsearch.indexes');
+        $this->_config = config('sphinxsearch.indexes');
+
         reset($this->_config);
-        $this->_index_name = isset($this->_config['name']) ? implode(',', $this->_config['name']) : key($this->_config);
+        $this->_index_name = implode(',', array_keys($this->_config));
+
         $this->_eager_loads = array();
     }
 
@@ -201,20 +213,21 @@ class SphinxSearch
                 $idString = implode(',', $matchids);
                 $config = isset($this->_config['mapping']) ? $this->_config['mapping']
                     : $this->_config[$this->_index_name];
+                    // dd($config);
                 if ($config) {
                     if (isset($config['modelname'])) {
                         if ($this->_eager_loads) {
                             $result = call_user_func_array($config['modelname'] . "::whereIn",
-                                array($config['column'], $matchids))->orderByRaw(\DB::raw("FIELD(id, $idString)"))
+                                array($config['column'], $matchids))->orderByRaw(DB::raw("FIELD(id, $idString)"))
                                 ->with($this->_eager_loads)->get();
                         } else {
                             $result = call_user_func_array($config['modelname'] . "::whereIn",
-                                array($config['column'], $matchids))->orderByRaw(\DB::raw("FIELD(id, $idString)"))
+                                array($config['column'], $matchids))->orderByRaw(DB::raw("FIELD(id, $idString)"))
                                 ->get();
                         }
                     } else {
-                        $result = \DB::table($config['table'])->whereIn($config['column'], $matchids)
-                            ->orderByRaw(\DB::raw("FIELD(id, $idString)"))->get();
+                        $result = DB::table($config['table'])->whereIn($config['column'], $matchids)
+                            ->orderByRaw(DB::raw("FIELD(id, $idString)"))->get();
                     }
                 }
             } else {

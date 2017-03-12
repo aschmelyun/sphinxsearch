@@ -16,10 +16,10 @@ composer require cugr/sphinxsearch:dev-master
 After updating composer, add the ServiceProvider to the "providers" array in config/app.php:
 
 ```php
-	'providers' => array(
+	'providers' => [
         /*** Some others providers ***/
         CuGR\SphinxSearch\SphinxSearchServiceProvider::class,
-    ),
+    ],
 ```
 
 You can add this line to the files, where you may use SphinxSearch:
@@ -40,23 +40,23 @@ php artisan vendor:publish --provider="CuGR\SphinxSearch\SphinxSearchServiceProv
 This will create the file `config/sphinxsearch.php`. Modify as needed the host and port, and configure the indexes, binding them to a table and id column.
 
 ```php
-return array (
+return [
 	'host'    => '127.0.0.1',
 	'port'    => 9312,
 	'indexes' => array (
 		'my_index_name' => array ( 'table' => 'my_keywords_table', 'column' => 'id' ),
 	)
-);
+];
 ```
 Or disable the model querying to just get a list of result ids.
 ```php
-return array (
+return [
 	'host'    => '127.0.0.1',
 	'port'    => 9312,
 	'indexes' => array (
 		'my_index_name' => FALSE,
 	)
-);
+];
 ```
 
 
