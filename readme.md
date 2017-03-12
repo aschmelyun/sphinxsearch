@@ -18,14 +18,14 @@ After updating composer, add the ServiceProvider to the "providers" array in con
 ```php
 	'providers' => array(
         /*** Some others providers ***/
-        'sngrl\SphinxSearch\SphinxSearchServiceProvider',
+        CuGR\SphinxSearch\SphinxSearchServiceProvider::class,
     ),
 ```
 
 You can add this line to the files, where you may use SphinxSearch:
 
 ```php
-use sngrl\SphinxSearch\SphinxSearch;
+use CuGR\SphinxSearch\SphinxSearch;
 ```
 
 Configuration
@@ -34,7 +34,7 @@ Configuration
 To use Sphinx Search, you need to configure your indexes and what model it should query. To do so, publish the configuration into your app.
 
 ```php
-php artisan vendor:publish --provider=sngrl\SphinxSearch\SphinxSearchServiceProvider --force
+php artisan vendor:publish --provider="CuGR\SphinxSearch\SphinxSearchServiceProvider"
 ```
 
 This will create the file `config/sphinxsearch.php`. Modify as needed the host and port, and configure the indexes, binding them to a table and id column.
@@ -48,7 +48,7 @@ return array (
 	)
 );
 ```
-Or disable the model querying to just get a list of result id's.
+Or disable the model querying to just get a list of result ids.
 ```php
 return array (
 	'host'    => '127.0.0.1',
@@ -102,4 +102,4 @@ $result = $sphinx->search('my query', 'index_name')
 License
 =======================
 
-Sngrl Sphinx Search is open-sourced software licensed under the MIT license
+CuGR Sphinx Search is open-sourced software licensed under the [MIT license]('LICENSE')
