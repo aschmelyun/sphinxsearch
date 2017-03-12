@@ -37,28 +37,7 @@ To use Sphinx Search, you need to configure your indexes and what model it shoul
 php artisan vendor:publish --provider="CuGR\SphinxSearch\SphinxSearchServiceProvider"
 ```
 
-This will create the file `config/sphinxsearch.php`. Modify as needed the host and port, and configure the indexes, binding them to a table and id column.
-
-```php
-return [
-	'host'    => '127.0.0.1',
-	'port'    => 9312,
-	'indexes' => array (
-		'my_index_name' => array ( 'table' => 'my_keywords_table', 'column' => 'id' ),
-	)
-];
-```
-Or disable the model querying to just get a list of result ids.
-```php
-return [
-	'host'    => '127.0.0.1',
-	'port'    => 9312,
-	'indexes' => array (
-		'my_index_name' => FALSE,
-	)
-];
-```
-
+This will create the file `config/sphinxsearch.php`. Modify as needed.
 
 Usage
 =======================
