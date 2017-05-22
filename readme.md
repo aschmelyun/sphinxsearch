@@ -44,7 +44,7 @@ Usage
 
 Basic query (raw sphinx results)
 ```php
-$sphinx = new SphinxSearch();
+$sphinx = new SphinxSearch();  // or $sphinx = new SphinxSearch('connection_name');
 $results = $sphinx->search('my query', 'index_name')->query();
 ```
 
