@@ -18,7 +18,10 @@ class SphinxSearch
     protected $_eager_loads;
 	protected $_raw_mysql_connection;
 
-    public function __construct()
+    /**
+     * @param string $connection, set connection name to overwrite the default one.
+     */
+    public function __construct($connection = null)
     {
         $host = config('sphinxsearch.host');
         $port = config('sphinxsearch.port');
@@ -28,8 +31,11 @@ class SphinxSearch
         $this->_connection->setConnectTimeout($timeout);
         $this->_connection->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_ANY);
         $this->_connection->setSortMode(\Sphinx\SphinxClient::SPH_SORT_RELEVANCE);
-        if (extension_loaded('mysqli') && config('sphinxsearch.connection')) {
-            $database_connection = config('database.connections')[config('sphinxsearch.connection')];
+        
+        $connection = is_null($connection) ? config('sphinxsearch.connection') : $connection;
+
+        if (extension_loaded('mysqli') && $connection) {
+            $database_connection = config('database.connections')[$connection];
             $this->_raw_mysql_connection = mysqli_connect(
                     $database_connection['host'], $database_connection['username'], $database_connection['password'], 
                     $database_connection['database'], $database_connection['port']
