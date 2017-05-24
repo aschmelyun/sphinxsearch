@@ -6,17 +6,20 @@ return [
     'indexes' => [
         'index_1_i' => [
             'modelname' => 'App\Model1',
-            'table' => 'table1', 
+            'table' => 'table1',
+            'primaryKey' => 'id',
             'column' => 'id'
         ],
         'index_2_i' => [
             'modelname' => 'App\Model2',
             'table' => 'table2',
+            'primaryKey' => 'id',
             'column' => 'id'
         ],
         'index_3_i' => [
             'modelname' =>  'App\Model3',
             'table' => 'table3',
+            'primaryKey' => 'id',
             'column' => 'id'
         ],
     ],
