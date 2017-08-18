@@ -2,7 +2,7 @@ Sphinx Search for Laravel 5.4
 =======================
 Simple Laravel 5.4 package for make queries to Sphinx Search.
 
-This is a fork version of [sngrl/sphinxsearch](https://github.com/sngrl/sphinxsearch)
+Inspired by [sngrl/sphinxsearch](https://github.com/sngrl/sphinxsearch), and made it also usable in Laravel 5.4.
 
 Installation
 =======================
